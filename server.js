@@ -17,8 +17,14 @@ if (!ADMIN_PASSWORD || !SESSION_SECRET) {
   process.exit(1);
 }
 
-const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
+const UPLOADS_DIR = path.join(__dirname, 'data', 'uploads');
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+const SEED_PHOTO = path.join(__dirname, 'seed', 'photo.jpg');
+const DEFAULT_PHOTO = path.join(UPLOADS_DIR, 'photo.jpg');
+if (!fs.existsSync(DEFAULT_PHOTO) && fs.existsSync(SEED_PHOTO)) {
+  fs.copyFileSync(SEED_PHOTO, DEFAULT_PHOTO);
+}
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -50,7 +56,7 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 12
   }
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 
 // ============ Public site ============
