@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__NAME_LINE1__ __NAME_LINE2__ — __EYEBROW__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d10;
+    --bg-panel: #10151a;
+    --bg-panel-2: #141a20;
+    --line: #223038;
+    --line-soft: #1a2329;
+    --text: #dfe6ea;
+    --text-dim: #8fa1a8;
+    --text-mute: #5d6d73;
+    --amber: #ffb020;
+    --amber-dim: #7a5a1e;
+    --cyan: #34d1c4;
+    --danger: #ff5f56;
+    --mono: 'JetBrains Mono', 'Consolas', monospace;
+    --sans: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 42px 42px;
+    background-position: -1px -1px;
+  }
+  a{color:var(--amber); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,16,0.88);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:700; letter-spacing:0.5px;
+    color:var(--text); font-size:15px;
+  }
+  .brand span{color:var(--amber);}
+  nav.links{display:flex; gap:22px;}
+  nav.links a{
+    color:var(--text-dim); font-family:var(--mono); font-size:12.5px;
+    letter-spacing:0.06em; text-transform:uppercase;
+  }
+  nav.links a:hover{color:var(--amber); text-decoration:none;}
+
+  section{
+    max-width:1120px; margin:0 auto;
+    padding:88px 24px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  section:last-of-type{border-bottom:none;}
+  .tag{
+    font-family:var(--mono); color:var(--amber); font-size:12.5px;
+    letter-spacing:0.16em; text-transform:uppercase; margin:0 0 10px 0;
+    display:flex; align-items:center; gap:10px;
+  }
+  .tag::before{content:"//"; color:var(--text-mute);}
+  h2.section-title{
+    font-family:var(--mono); font-size:clamp(24px,3.4vw,34px);
+    font-weight:700; margin:0 0 36px 0; color:var(--text);
+  }
+
+  .hero{
+    padding-top:64px;
+    display:grid; grid-template-columns: 1.2fr 0.8fr; gap:56px; align-items:center;
+  }
+  .hero-eyebrow{
+    font-family:var(--mono); color:var(--cyan); font-size:13px;
+    letter-spacing:0.14em; text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:var(--mono); font-size:clamp(32px,5vw,50px);
+    line-height:1.15; margin:0 0 18px 0; font-weight:800;
+  }
+  .hero h1 .accent{color:var(--amber);}
+  .hero p.lede{
+    color:var(--text-dim); font-size:17px; max-width:56ch; margin:0 0 30px 0;
+  }
+  .hero-actions{display:flex; flex-wrap:wrap; gap:14px;}
+  .btn{
+    font-family:var(--mono); font-size:13.5px; letter-spacing:0.03em;
+    padding:12px 20px; border:1px solid var(--line);
+    color:var(--text); display:inline-flex; align-items:center; gap:8px;
+    background:var(--bg-panel);
+  }
+  .btn:hover{border-color:var(--amber); color:var(--amber); text-decoration:none;}
+  .btn.primary{background:var(--amber); color:#161006; border-color:var(--amber); font-weight:700;}
+  .btn.primary:hover{background:#ffc04d; color:#161006;}
+
+  .hero-photo-wrap{
+    position:relative; justify-self:end;
+    width:100%; max-width:300px;
+  }
+  .hero-photo-frame{
+    position:relative; border:1px solid var(--line);
+    padding:10px; background:var(--bg-panel);
+  }
+  .hero-photo-frame::before, .hero-photo-frame::after{
+    content:""; position:absolute; width:16px; height:16px;
+    border:2px solid var(--amber);
+  }
+  .hero-photo-frame::before{ top:-2px; left:-2px; border-right:none; border-bottom:none;}
+  .hero-photo-frame::after{ bottom:-2px; right:-2px; border-left:none; border-top:none;}
+  .photo-clip{ position:relative; overflow:hidden; line-height:0; }
+  .hero-photo-frame img{
+    display:block; width:100%; height:auto; filter:grayscale(15%) contrast(1.03);
+  }
+  .photo-clip::before{
+    content:"";
+    position:absolute; inset:0; z-index:2; pointer-events:none;
+    background:repeating-linear-gradient(0deg,
+      rgba(57,255,20,0.05) 0px, rgba(57,255,20,0.05) 1px,
+      transparent 2px, transparent 3px);
+    mix-blend-mode:overlay;
+  }
+  .laser-line{
+    position:absolute; left:-45%; top:-15%;
+    width:190%; height:3px;
+    background:linear-gradient(90deg, transparent, #21ff6a 15%, #d6ffe3 50%, #21ff6a 85%, transparent);
+    box-shadow:
+      0 0 6px 1px rgba(33,255,106,0.95),
+      0 0 18px 5px rgba(33,255,106,0.55),
+      0 0 40px 10px rgba(33,255,106,0.25);
+    transform:rotate(32deg);
+    mix-blend-mode:screen;
+    pointer-events:none;
+    z-index:3;
+    animation: laser-sweep 3.2s cubic-bezier(.45,0,.3,1) infinite;
+  }
+  @keyframes laser-sweep{
+    0%   { top:-15%; opacity:0; }
+    6%   { opacity:1; }
+    50%  { top:104%; opacity:1; }
+    58%  { opacity:0; }
+    100% { top:104%; opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .laser-line{ animation:none; opacity:0; }
+  }
+  .hero-photo-caption{
+    font-family:var(--mono); font-size:11px; color:var(--text-mute);
+    margin-top:10px; text-align:center; letter-spacing:0.08em;
+  }
+
+  .about-grid{display:grid; grid-template-columns: 2fr 1fr; gap:48px;}
+  .about-grid p{color:var(--text-dim); font-size:16px; white-space:pre-line;}
+  .about-side{
+    border:1px solid var(--line); background:var(--bg-panel); padding:22px;
+    font-family:var(--mono); font-size:13px;
+  }
+  .about-side dt{color:var(--text-mute); margin-top:14px; text-transform:uppercase; font-size:11px; letter-spacing:0.08em;}
+  .about-side dt:first-child{margin-top:0;}
+  .about-side dd{color:var(--text); margin:4px 0 0 0;}
+
+  .exp-item{
+    border:1px solid var(--line); background:var(--bg-panel);
+    padding:26px 28px; position:relative; margin-bottom:20px;
+  }
+  .exp-item:last-child{margin-bottom:0;}
+  .exp-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px 20px;}
+  .exp-role{font-family:var(--mono); font-weight:700; font-size:17px; color:var(--text);}
+  .exp-org{color:var(--cyan);}
+  .exp-date{font-family:var(--mono); font-size:12.5px; color:var(--text-mute); white-space:nowrap;}
+  .exp-item ul{margin:16px 0 0 0; padding-left:20px; color:var(--text-dim);}
+  .exp-item li{margin-bottom:8px;}
+  .exp-item li::marker{color:var(--amber);}
+
+  .proj-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .proj-card{
+    border:1px solid var(--line); background:var(--bg-panel);
+    padding:24px; display:flex; flex-direction:column;
+  }
+  .proj-card .proj-index{font-family:var(--mono); color:var(--text-mute); font-size:12px;}
+  .proj-card h3{font-family:var(--mono); font-size:18px; margin:8px 0 12px 0; color:var(--text);}
+  .proj-card .stack{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+  .chip{
+    font-family:var(--mono); font-size:11px; color:var(--amber);
+    border:1px solid var(--amber-dim); padding:3px 8px; letter-spacing:0.03em;
+  }
+  .proj-card ul{margin:0; padding-left:18px; color:var(--text-dim); font-size:14px; flex:1;}
+  .proj-card li{margin-bottom:8px;}
+  .proj-card li::marker{color:var(--cyan);}
+  .proj-badge{
+    margin-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--cyan);
+    border-top:1px dashed var(--line); padding-top:12px;
+  }
+
+  .skills-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .skill-group h4{
+    font-family:var(--mono); color:var(--text-mute); font-size:12px;
+    text-transform:uppercase; letter-spacing:0.1em; margin:0 0 14px 0;
+    padding-bottom:10px; border-bottom:1px solid var(--line);
+  }
+  .skill-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .skill-chips span{
+    font-family:var(--mono); font-size:12.5px; color:var(--text);
+    border:1px solid var(--line); padding:6px 11px; background:var(--bg-panel);
+  }
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .edu-item{border-left:2px solid var(--amber); padding-left:20px; margin-bottom:22px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-item .degree{font-family:var(--mono); font-weight:700; font-size:16px;}
+  .edu-item .school{color:var(--cyan); margin-top:2px;}
+  .edu-item .date{font-family:var(--mono); font-size:12.5px; color:var(--text-mute); margin-top:2px;}
+  .edu-item .extra{color:var(--text-dim); font-size:14px; margin-top:8px;}
+
+  .ach-list{list-style:none; margin:0; padding:0;}
+  .ach-list li{
+    display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line-soft);
+    color:var(--text-dim); font-size:14.5px;
+  }
+  .ach-list li:last-child{border-bottom:none;}
+  .ach-list .ico{
+    font-family:var(--mono); color:var(--amber); font-weight:700; flex-shrink:0;
+  }
+  .lang-row{display:flex; gap:28px; margin-top:22px; flex-wrap:wrap;}
+  .lang-item{font-family:var(--mono); font-size:13px;}
+
+  .contact-panel{
+    border:1px solid var(--line); background:var(--bg-panel);
+    padding:40px; display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:center;
+  }
+  .contact-panel h3{font-family:var(--mono); font-size:26px; margin:0 0 12px 0;}
+  .contact-panel p{color:var(--text-dim); margin:0 0 24px 0;}
+  .contact-list{display:flex; flex-direction:column; gap:14px;}
+  .contact-list a{
+    font-family:var(--mono); color:var(--text); font-size:14px;
+    display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--line-soft);
+    padding-bottom:12px;
+  }
+  .contact-list a:hover{color:var(--amber); text-decoration:none;}
+  .contact-list .k{color:var(--text-mute); width:76px; flex-shrink:0; text-transform:uppercase; font-size:11px; letter-spacing:0.08em;}
+
+  .quick-form{display:flex; flex-direction:column; gap:10px; max-width:380px;}
+  .quick-form input, .quick-form textarea{
+    font-family:var(--sans); font-size:14px; color:var(--text);
+    background:var(--bg); border:1px solid var(--line); padding:10px 12px;
+    resize:vertical;
+  }
+  .quick-form input:focus, .quick-form textarea:focus{
+    outline:none; border-color:var(--amber);
+  }
+  .quick-form #cf-name{max-width:180px;}
+  .quick-form button{align-self:flex-start; cursor:pointer;}
+  .quick-form button:disabled{opacity:0.5; cursor:default;}
+  .cf-status{font-family:var(--mono); font-size:12.5px; min-height:16px;}
+  .cf-status.ok{color:var(--cyan);}
+  .cf-status.err{color:var(--danger);}
+
+  footer{
+    text-align:center; padding:28px 24px; font-family:var(--mono);
+    color:var(--text-mute); font-size:12px;
+  }
+
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .hero{grid-template-columns:1fr;}
+    .hero-photo-wrap{justify-self:start; max-width:220px;}
+    .about-grid, .two-col{grid-template-columns:1fr;}
+    .proj-grid, .skills-grid{grid-template-columns:1fr;}
+    .contact-panel{grid-template-columns:1fr;}
+    section{padding:60px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">__NAME_INITIAL__<span>.</span>__NAME_LAST__</div>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div>
+    <div class="hero-eyebrow">__EYEBROW__</div>
+    <h1>__NAME_LINE1__<br><span class="accent">__NAME_LINE2__</span></h1>
+    <p class="lede">__OBJECTIVE__</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="mailto:__EMAIL__">Email Me</a>
+      <a class="btn" href="__LINKEDIN_URL__" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="__GITHUB_URL__" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <div class="photo-clip">
+      <img src="__PHOTO_SRC__" alt="__NAME_LINE1__ __NAME_LINE2__">
+      <div class="laser-line"></div>
+      </div>
+    </div>
+    <div class="hero-photo-caption">__LOCATION_UPPER__</div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="tag">01 — Objective</div>
+  <h2 class="section-title">About</h2>
+  <div class="about-grid">
+    <p>__OBJECTIVE__</p>
+    <dl class="about-side">
+      <dt>Location</dt><dd>__LOCATION__</dd>
+      <dt>Phone</dt><dd>__PHONE__</dd>
+      <dt>Email</dt><dd><a href="mailto:__EMAIL__">__EMAIL__</a></dd>
+      <dt>Focus</dt><dd>Robotics, Networking &amp; Embedded Systems</dd>
+      <dt>Languages</dt><dd>__LANGUAGES__</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="tag">02 — Experience</div>
+  <h2 class="section-title">Experience</h2>
+  __EXPERIENCE_HTML__
+</section>
+
+<section id="projects">
+  <div class="tag">03 — Selected Work</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="proj-grid">
+    __PROJECTS_HTML__
+  </div>
+</section>
+
+<section id="skills">
+  <div class="tag">04 — Toolkit</div>
+  <h2 class="section-title">Skills</h2>
+  <div class="skills-grid">
+    __SKILLS_HTML__
+  </div>
+</section>
+
+<section id="education">
+  <div class="tag">05 — Background</div>
+  <h2 class="section-title">Education &amp; Achievements</h2>
+  <div class="two-col">
+    <div>
+      __EDUCATION_HTML__
+      <div class="lang-row">
+        __LANGUAGES_HTML__
+      </div>
+    </div>
+    <div>
+      <ul class="ach-list">
+        __ACHIEVEMENTS_HTML__
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="tag">06 — Get In Touch</div>
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-panel">
+    <div>
+      <h3>Let's build something.</h3>
+      <p>Open to robotics and network engineering roles, internships, and collaborations. Send a quick message and it'll reach me directly.</p>
+      <form class="quick-form" id="contact-form">
+        <input type="text" name="name" id="cf-name" placeholder="Your name (optional)" maxlength="120">
+        <textarea name="message" id="cf-message" rows="3" placeholder="Your message..." required></textarea>
+        <button type="submit" class="btn primary" id="cf-submit">Send</button>
+        <div class="cf-status" id="cf-status"></div>
+      </form>
+    </div>
+    <div class="contact-list">
+      <a href="mailto:__EMAIL__"><span class="k">Email</span> __EMAIL__</a>
+      <a href="tel:__PHONE_TEL__"><span class="k">Phone</span> __PHONE__</a>
+      <a href="__LINKEDIN_URL__" target="_blank" rel="noopener"><span class="k">LinkedIn</span> __LINKEDIN_LABEL__</a>
+      <a href="__GITHUB_URL__" target="_blank" rel="noopener"><span class="k">GitHub</span> __GITHUB_LABEL__</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; __YEAR__ __NAME_LINE1__ __NAME_LINE2__ — __LOCATION__
+</footer>
+
+<script>
+  const cfForm = document.getElementById('contact-form');
+  const cfStatus = document.getElementById('cf-status');
+  const cfSubmit = document.getElementById('cf-submit');
+
+  cfForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('cf-name').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+
+    cfSubmit.disabled = true;
+    cfStatus.textContent = 'Sending...';
+    cfStatus.className = 'cf-status';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, message })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        cfStatus.textContent = 'Message sent — thank you!';
+        cfStatus.className = 'cf-status ok';
+        cfForm.reset();
+      } else {
+        cfStatus.textContent = data.error || 'Something went wrong. Try again.';
+        cfStatus.className = 'cf-status err';
+      }
+    } catch (err) {
+      cfStatus.textContent = 'Network error. Try again later.';
+      cfStatus.className = 'cf-status err';
+    } finally {
+      cfSubmit.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
